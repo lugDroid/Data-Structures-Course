@@ -2,10 +2,12 @@ import java.io.BufferedReader;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
+import java.util.Scanner;
 import java.util.Set;
 import java.util.StringTokenizer;
 
@@ -117,26 +119,51 @@ public class Analyzer {
 
 	}
 	
-	/*
-	 * Implement this method in Part 3
-	 */
 	public static Map<String, Double> calculateScores(Set<Word> words) {
-
-		/* IMPLEMENT THIS METHOD! */
+		HashMap<String, Double> scores = new HashMap<>();
 		
-		return null; // this line is here only so this code will compile if you don't modify it
+		if (words == null || words.size() == 0)
+			return scores;
+		
+		for (Word word : words) {
+			if (word != null) {
+				scores.put(word.getText(), word.calculateScore());
+			}
+		}
+		
+		return scores;
 
 	}
 	
-	/*
-	 * Implement this method in Part 4
-	 */
 	public static double calculateSentenceScore(Map<String, Double> wordScores, String sentence) {
-
-		/* IMPLEMENT THIS METHOD! */
+		if (sentence == null || sentence.length() == 0 || wordScores == null) {
+			return 0.0;
+		}
+		String[] words = sentence.toLowerCase().split(" ");
+		double score = 0;
+		boolean validWord = true;
+		int validWordsNum = 0;
 		
-		return 0; // this line is here only so this code will compile if you don't modify it
-
+		for (String word : words) {
+			// check if word is only characters
+			for (int i = 0; i < word.length(); i++) {
+				if (!((word.charAt(i) >= 'A' && word.charAt(i) <= 'Z') || (word.charAt(i) >= 'a' && word.charAt(i) <= 'z'))) {
+					validWord = false;
+				}
+			}
+			
+			if (validWord) {
+				validWordsNum++;
+				if (wordScores.containsKey(word))
+					score += wordScores.get(word);
+			}
+		}
+		
+		if (score != 0.0) {
+			return score / validWordsNum;
+		} else {
+			return 0.0;
+		}
 	}
 	
 	/*
@@ -144,7 +171,7 @@ public class Analyzer {
 	 * You may modify it as needed.
 	 */
 	public static void main(String[] args) {
-		/*if (args.length == 0) {
+		if (args.length == 0) {
 			System.out.println("Please specify the name of the input file");
 			System.exit(0);
 		}
@@ -157,12 +184,6 @@ public class Analyzer {
 		Set<Word> words = Analyzer.allWords(sentences);
 		Map<String, Double> wordScores = Analyzer.calculateScores(words);
 		double score = Analyzer.calculateSentenceScore(wordScores, sentence);
-		System.out.println("The sentiment score is " + score);*/
-		
-		List<Sentence> list = Analyzer.readFile("reviews.txt");
-		
-		for (Sentence sent : list) {
-			System.out.println(sent.getText() + ": " + sent.getScore());
-		}
+		System.out.println("The sentiment score is " + score);
 	}
 }
