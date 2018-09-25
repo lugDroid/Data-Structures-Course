@@ -12,6 +12,7 @@ settings/
 .recommenders
 *.txt
 
+
 # External tool builders
 .externalToolBuilders/
 
