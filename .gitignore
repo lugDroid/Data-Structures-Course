@@ -5,12 +5,10 @@ tmp/
 *.bak
 *.swp
 *~.nib
-*.jar
 local.properties
 settings/
 .loadpath
 .recommenders
-*.txt
 
 
 # External tool builders
