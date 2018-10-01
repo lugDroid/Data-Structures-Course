@@ -139,22 +139,58 @@ public class BinarySearchTree<E extends Comparable<E>> {
 	
 	// Method #2.
 	protected int depth(E val) {
-
-		/* IMPLEMENT THIS METHOD! */
+		if (val == null) return -1;
 		
-		return -2; // this line is here only so this code will compile if you don't modify it
+		Node node = root;
+		int depth = 0;
+		
+		do {
+			if (node.value.equals(val)) return depth;
+			
+			if (node.value.compareTo(val) > 0) {
+				node = node.leftChild;
+			} else {
+				node = node.rightChild;
+			}
+			
+			depth++;
+		} while (node != null);
+		
+		return -1;
 
 	}
 	
 	// Method #3.
 	protected int height(E val) {
-
-		/* IMPLEMENT THIS METHOD! */
+		if (val == null) return -1;
 		
-		return -2; // this line is here only so this code will compile if you don't modify it
-
+		if (this.contains(val))
+			return getChildrenHeight(findNode(val));
+		
+		return -1;
 	}
-
+	
+	protected int getChildrenHeight(Node node) {
+		
+		if (node.leftChild == null && node.rightChild == null) {
+			return 0;
+		} else if (node.leftChild != null) {
+			return 1 + getChildrenHeight(node.leftChild);
+		} else if (node.rightChild != null) {
+			return 1 + getChildrenHeight(node.rightChild);
+		} else {
+			int leftHeight = getChildrenHeight(node.leftChild);
+			int rightHeight = getChildrenHeight(node.rightChild);
+			
+			if (leftHeight > rightHeight) {
+				return 1 + leftHeight;
+			} else {
+				return 1 + rightHeight;
+			}
+		}
+		
+	}
+ 
 
 	// Method #4.
 	protected boolean isBalanced(Node n) {
