@@ -194,20 +194,34 @@ public class BinarySearchTree<E extends Comparable<E>> {
 
 	// Method #4.
 	protected boolean isBalanced(Node n) {
-
-		/* IMPLEMENT THIS METHOD! */
+		if (n == null || !this.contains(n.value)) return false;
 		
-		return true; // this line is here only so this code will compile if you don't modify it
+		int leftHeight = 0;
+		int rightHeight = 0;
+		
+		if (n.leftChild != null) {
+			leftHeight = getChildrenHeight(n.leftChild);
+		} else {
+			leftHeight = -1;
+		}
+		
+		if (n.rightChild != null) {
+			rightHeight = getChildrenHeight(n.rightChild);
+		} else {
+			rightHeight = -1;
+		}
+		
+		if ((Math.abs(leftHeight - rightHeight)) <= 1) return true;
+		
+		return false;
 
 	}
 	
 	// Method #5. .
 	public boolean isBalanced() {
-
-		/* IMPLEMENT THIS METHOD! */
 		
-		return false; // this line is here only so this code will compile if you don't modify it
-
+		return isBalanced(root);
+		
 	}
 
 }
