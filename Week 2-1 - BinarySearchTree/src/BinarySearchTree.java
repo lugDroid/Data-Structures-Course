@@ -174,9 +174,9 @@ public class BinarySearchTree<E extends Comparable<E>> {
 		
 		if (node.leftChild == null && node.rightChild == null) {
 			return 0;
-		} else if (node.leftChild != null) {
+		} else if (node.leftChild != null && node.rightChild == null) {
 			return 1 + getChildrenHeight(node.leftChild);
-		} else if (node.rightChild != null) {
+		} else if (node.rightChild != null && node.leftChild == null) {
 			return 1 + getChildrenHeight(node.rightChild);
 		} else {
 			int leftHeight = getChildrenHeight(node.leftChild);
@@ -220,7 +220,15 @@ public class BinarySearchTree<E extends Comparable<E>> {
 	// Method #5. .
 	public boolean isBalanced() {
 		
-		return isBalanced(root);
+		if (root.leftChild == null && root.rightChild == null) {
+			return true;
+		} else if (root.leftChild != null && root.rightChild == null) {
+			return isBalanced(root.leftChild);
+		} else if (root.rightChild != null && root.leftChild == null) {
+			return isBalanced(root.rightChild);
+		} else {		
+			return isBalanced(root.leftChild) && isBalanced(root.rightChild);
+		}
 		
 	}
 
