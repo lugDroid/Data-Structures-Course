@@ -1,6 +1,10 @@
 
 
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.LinkedList;
 import java.util.List;
+import java.util.Queue;
 import java.util.Set;
 
 /*
@@ -34,10 +38,31 @@ public class GraphUtils {
 	
 
 	public static Set<String> nodesWithinDistance(Graph graph, String src, int distance) {
-
-		/* IMPLEMENT THIS METHOD! */
+		if (graph == null || src == null || !graph.containsElement(src) || distance < 1)
+			return null;
 		
-		return null; // this line is here only so this code will compile if you don't modify it
+		HashSet<String> nodes = new HashSet<>();
+		HashMap<Node, Integer> marked = new HashMap<>();
+		Queue<Node> toExplore = new LinkedList<Node>();
+		
+		Node start = graph.getNode(src);
+		marked.put(start, 0);
+		toExplore.add(start);
+		
+		while (!toExplore.isEmpty()) {
+			Node current = toExplore.remove();
+			if (marked.get(current) < distance) {
+				for (Node neighbor : graph.getNodeNeighbors(current)) {
+					if (!marked.containsKey(neighbor)) {
+						marked.put(neighbor, marked.get(current) + 1);
+						nodes.add(neighbor.getElement());
+						toExplore.add(neighbor);
+					}
+				}
+			}
+		}
+		
+		return nodes;
 	}
 
 
@@ -51,9 +76,9 @@ public class GraphUtils {
 	public static void main(String[] args) {
 		
 		UndirectedGraph ug = GraphBuilder.buildUndirectedGraph("graph_builder_test.txt");
-		
 		DirectedGraph dg = GraphBuilder.buildDirectedGraph("directed_graph.txt");
 		
-		System.out.println(GraphUtils.minDistance(dg, "0", "8"));
+		//System.out.println(GraphUtils.minDistance(dg, "0", "8"));
+		System.out.println(GraphUtils.nodesWithinDistance(ug, "0", 1));
 	}
 }

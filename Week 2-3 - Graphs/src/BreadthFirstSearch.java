@@ -23,9 +23,6 @@ public class BreadthFirstSearch {
 		distance = 0;
 	}
 	
-	/**
-	 * This method was discussed in the lesson
-	 */
 	public boolean bfs(Node start, String elementToFind) {
 		if (!graph.containsNode(start)) {
 				return false;
