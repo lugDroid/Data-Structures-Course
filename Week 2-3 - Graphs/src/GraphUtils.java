@@ -25,10 +25,8 @@ public class GraphUtils {
 			// use breadth first search to get the shortest path
 			BreadthFirstSearch graphSearch = new BreadthFirstSearch(graph);
 			if (graphSearch.bfs(graph.getNode(src), dest)) {
-				System.out.println("Route found");
 				return graphSearch.distance;
 			} else {
-				System.out.println("Route not found");
 				return -1;
 			}
 		}
@@ -69,7 +67,7 @@ public class GraphUtils {
 
 	public static boolean isHamiltonianPath(Graph g, List<String> values) {
 		if (g == null || values == null || values.isEmpty() || 
-				values.size() != g.numNodes ||
+				(values.size() - 1) != g.numNodes ||
 				values.get(0) != values.get(values.size() - 1))
 			return false;
 		
@@ -107,5 +105,18 @@ public class GraphUtils {
 		
 		//System.out.println(GraphUtils.minDistance(dg, "0", "8"));
 		//System.out.println(GraphUtils.nodesWithinDistance(ug, "0", 1));
+		
+		UndirectedGraph ugh = GraphBuilder.buildUndirectedGraph("is_hamiltonian_path_test.txt");
+		List<String> path = new LinkedList<>();
+		path.add("0");
+		path.add("1");
+		path.add("2");
+		path.add("3");
+		path.add("4");
+		path.add("5");
+		path.add("0");
+		
+		
+		System.out.println(GraphUtils.isHamiltonianPath(ugh, path));
 	}
 }
