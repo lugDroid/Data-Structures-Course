@@ -1,5 +1,6 @@
 
 
+import java.lang.reflect.Array;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.LinkedList;
@@ -67,18 +68,44 @@ public class GraphUtils {
 
 
 	public static boolean isHamiltonianPath(Graph g, List<String> values) {
-
-		/* IMPLEMENT THIS METHOD! */
+		if (g == null || values == null || values.isEmpty() || 
+				values.size() != g.numNodes ||
+				values.get(0) != values.get(values.size() - 1))
+			return false;
 		
-		return true; // this line is here only so this code will compile if you don't modify it
+		boolean[] checks = new boolean[values.size()];
+		
+		for (int i = 0; i < values.size(); i++) {
+			if (g.containsElement(values.get(i))) {
+				Node current = g.getNode(values.get(i));
+				if (i < values.size() - 1) {
+					Node next = g.getNode(values.get(i + 1));
+					Set<Edge> edges = g.getNodeEdges(current);
+				
+					for (Edge edge : edges) {
+						if (edge.getDestination() == next)
+							checks[i] = true;
+					}
+				} else {
+					checks[i] = true;
+				}
+			}
+		}
+		
+		boolean result = true;
+		for (int j = 0; j < checks.length; j++) {
+			if (checks[j] == false)
+				result = false;
+		}
+		return result;
 	}
 	
 	public static void main(String[] args) {
 		
-		UndirectedGraph ug = GraphBuilder.buildUndirectedGraph("graph_builder_test.txt");
-		DirectedGraph dg = GraphBuilder.buildDirectedGraph("directed_graph.txt");
+		//UndirectedGraph ug = GraphBuilder.buildUndirectedGraph("graph_builder_test.txt");
+		//DirectedGraph dg = GraphBuilder.buildDirectedGraph("directed_graph.txt");
 		
 		//System.out.println(GraphUtils.minDistance(dg, "0", "8"));
-		System.out.println(GraphUtils.nodesWithinDistance(ug, "0", 1));
+		//System.out.println(GraphUtils.nodesWithinDistance(ug, "0", 1));
 	}
 }
